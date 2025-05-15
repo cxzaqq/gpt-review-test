@@ -1,0 +1,32 @@
+name: ChatGPT Code Review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anc95/ChatGPT-CodeReview@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MODEL: o3-mini
+          OPENAI_API_ENDPOINT: https://api.openai.com/v1
+          LANGUAGE: Korean
+          PROMPT: |
+            이 PR을 Google/Meta/Stripe 수준의 엄격한 코드 리뷰 관점으로 분석해주세요:
+            
+            피드백은:
+              - P0(반드시 수정)/P1(중요)/P2(권장) 우선순위로 분류
+              - 문제보다 해결책 중심으로 제시
+              - 구체적인 코드 예시 포함
+              - "왜" 변경이 필요한지 원칙과 함께 설명
+
+            최고 수준의 코드만 승인하고, "잘 돌아가니까 괜찮아"는 수용하지 않음.
+            응답 코드는 pr 코드 리뷰에 반드시 이모지를 항상 활용할 것(특히 상대방이 기분나쁘지 않게)
