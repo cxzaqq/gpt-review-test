@@ -13,6 +13,8 @@ import java.util.Map;
 @RestController
 public class HealthController {
 
+    private static final ZoneId SEOUL_ZONE = ZoneId.of("Asia/Seoul");
+
     /**
      * 서비스의 건강 상태를 체크합니다.
      * @return 현재 상태와 타임스탬프를 포함한 JSON 응답
@@ -22,8 +24,7 @@ public class HealthController {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "OK");
 
-        // 한국 시간으로 타임스탬프 생성
-        ZonedDateTime koreaTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        ZonedDateTime koreaTime = ZonedDateTime.now(SEOUL_ZONE);
         String formattedTime = koreaTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         response.put("timestamp", formattedTime);

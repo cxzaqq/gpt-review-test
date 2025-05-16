@@ -18,7 +18,7 @@ class HealthControllerTest {
 
     @Test
     @DisplayName("health check must returns OK and timestamp")
-    void healthCheck_ReturnsOKStatusAndTimestamp() throws Exception {
+    void healthCheckReturnsOKStatusAndTimestamp() throws Exception {
         mockMvc.perform(get("/health"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
