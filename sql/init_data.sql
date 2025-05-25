@@ -1,6 +1,24 @@
 INSERT INTO `department`
-(`dept_code`, `name`)
+(`name`)
 VALUES
-("DPT_PUR", "구매팀"),
-("DPT_SAL", "영업팀"),
-("DPT_LOG", "물류팀")
+("구매팀"),
+("영업팀"),
+("물류팀");
+
+INSERT INTO `position`
+(`name`)
+VALUES
+("사원"),
+("대리"),
+("과장"),
+("차장"),
+("부장"),
+("이사"),
+("전무"),
+("사장");
+
+INSERT INTO `duty`
+(`name`)
+VALUES
+("팀장"),
+("부장");
