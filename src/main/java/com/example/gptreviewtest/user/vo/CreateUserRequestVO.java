@@ -9,10 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ReqCreateUserVO {
+public class CreateUserRequestVO {
     private String name;
     private String email;
     private String phone;
     private String userType;
-    private String dept_code;
+    private Integer departmentId;
+    private Integer positionId;
+    private Integer dutyId;
 }

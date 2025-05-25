@@ -1,8 +1,8 @@
 package com.example.gptreviewtest.user.service;
 
-import com.example.gptreviewtest.user.vo.ReqCreateUserVO;
-import com.example.gptreviewtest.user.vo.ResCreateUserVO;
+import com.example.gptreviewtest.user.vo.CreateUserRequestVO;
+import com.example.gptreviewtest.user.vo.CreateUserResponseVO;
 
 public interface UserService {
-    void createUser(ReqCreateUserVO reqCreateUserVO, ResCreateUserVO resCreateUserVO);
+    CreateUserResponseVO createUser(CreateUserRequestVO createUserRequestVO);
 }

@@ -1,8 +1,8 @@
 package com.example.gptreviewtest.user.controller;
 
 import com.example.gptreviewtest.user.service.UserService;
-import com.example.gptreviewtest.user.vo.ReqCreateUserVO;
-import com.example.gptreviewtest.user.vo.ResCreateUserVO;
+import com.example.gptreviewtest.user.vo.CreateUserRequestVO;
+import com.example.gptreviewtest.user.vo.CreateUserResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ResCreateUserVO> createUser(@RequestBody ReqCreateUserVO reqCreateUserVO) {
-        ResCreateUserVO resCreateUserVO = new ResCreateUserVO();
-        userService.createUser(reqCreateUserVO, resCreateUserVO);
+    public ResponseEntity<CreateUserResponseVO> createUser(@RequestBody CreateUserRequestVO createUserRequestVO) {
+        CreateUserResponseVO createUserResponseVO = userService.createUser(createUserRequestVO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(resCreateUserVO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,25 +18,38 @@ import lombok.Setter;
 public class UserEntity {
 
     @Id
-    @Column(name = "user_code", length = 50, nullable = false)
-    private String user_code;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @Column(name = "password", length = 100, nullable = false)
+    @Column(name = "code", unique = true, nullable = false)
+    private String code;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "phone", length = 20, nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column(name = "email", length = 100, nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "user_type", nullable = false, length = 50)
-    private UserType userType;
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dept_code")
-    private DepartmentEntity department;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @Column(name = "is_locked")
+    private Boolean isLocked = false;
+
+    @Column(name = "sign_url")
+    private String signUrl;
 }
