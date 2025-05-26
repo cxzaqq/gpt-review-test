@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     // userType과 userCodePrefix로 시작하는 코드 중 가장 최신 코드 1건 조회
-    Optional<UserEntity> findTopByUserTypeAndUserCodeStartingWithOrderByUserCodeDesc(UserType userType, String userCodePrefix);
+    Optional<UserEntity> findTopByTypeAndCodeStartingWithOrderByCodeDesc(UserType userType, String userCodePrefix);
 }
