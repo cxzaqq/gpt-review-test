@@ -4,4 +4,6 @@ public record CreateUserResponseVO(
     String userCode,
     String name,
     String userType,
-    String department) {}
+    Integer departmentId,
+    Integer positionId,
+    Integer dutyId) {}

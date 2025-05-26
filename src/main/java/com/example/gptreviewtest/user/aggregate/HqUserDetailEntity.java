@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "hq_user_detail")
-public class HqUserDetail {
+public class HqUserDetailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +22,12 @@ public class HqUserDetail {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private DepartmentEntity department;
+    @Column(name = "department_id")
+    private Integer departmentId;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private PositionEntity position;
+    @Column(name = "position_id")
+    private Integer positionId;
 
-    @ManyToOne
-    @JoinColumn(name = "duty_id")
-    private DutyEntity duty;
+    @Column(name = "duty_id")
+    private Integer dutyId;
 }
