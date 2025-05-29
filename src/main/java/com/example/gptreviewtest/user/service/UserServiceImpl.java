@@ -2,6 +2,7 @@ package com.example.gptreviewtest.user.service;
 
 import com.example.gptreviewtest.email.EmailService;
 import com.example.gptreviewtest.CustomException.DuplicateException;
+import com.example.gptreviewtest.email.dto.UserCredentialsDTO;
 import com.example.gptreviewtest.user.aggregate.HqUserDetailEntity;
 import com.example.gptreviewtest.user.aggregate.UserEntity;
 import com.example.gptreviewtest.user.enums.UserType;
@@ -12,6 +13,7 @@ import com.example.gptreviewtest.user.vo.CreateUserResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -84,6 +86,7 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    @Transactional
     @Override
     public CreateUserResponseVO createUser(CreateUserRequestVO createUserRequestVO) {
         
@@ -129,11 +132,14 @@ public class UserServiceImpl implements UserService{
             hqUserDetailRepository.save(hqUserDetailEntity);
         }
 
+        UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO();
+        userCredentialsDTO.setTo(createUserRequestVO.getEmail());
+        userCredentialsDTO.setName(createUserRequestVO.getName());
+        userCredentialsDTO.setUserCode(userCode);
+        userCredentialsDTO.setRawPassword(randomPw);
+
         // TODO: 유저에게 이메일 발송
-        emailService.sendUserCredentials(createUserRequestVO.getEmail(),
-                                            createUserRequestVO.getName(),
-                                            userCode,
-                                            randomPw);
+        emailService.sendUserCredentials(userCredentialsDTO);
         
         // 정보 반환
         return new CreateUserResponseVO(userCode,

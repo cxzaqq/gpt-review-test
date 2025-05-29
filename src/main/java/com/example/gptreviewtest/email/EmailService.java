@@ -1,6 +1,8 @@
 package com.example.gptreviewtest.email;
 
+import com.example.gptreviewtest.email.dto.UserCredentialsDTO;
+
 public interface EmailService {
 
-    void sendUserCredentials(String to, String name, String userCode, String rawPassword);
+    void sendUserCredentials(UserCredentialsDTO userCredentialsDTO);
 }
