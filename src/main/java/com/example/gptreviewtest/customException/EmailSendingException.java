@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.CustomException;
+package com.example.gptreviewtest.customException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

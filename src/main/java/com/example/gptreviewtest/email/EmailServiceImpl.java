@@ -1,6 +1,6 @@
 package com.example.gptreviewtest.email;
 
-import com.example.gptreviewtest.CustomException.EmailSendingException;
+import com.example.gptreviewtest.customException.EmailSendingException;
 import com.example.gptreviewtest.email.dto.UserCredentialsDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
