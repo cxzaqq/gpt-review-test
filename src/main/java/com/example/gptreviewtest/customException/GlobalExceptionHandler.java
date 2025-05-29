@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.customException;
+package com.example.gptreviewtest.customexception;
 
 import com.example.gptreviewtest.customException.dto.ErrorResponseDTO;
 import lombok.extern.slf4j.Slf4j;

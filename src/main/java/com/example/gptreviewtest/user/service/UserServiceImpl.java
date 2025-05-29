@@ -1,7 +1,7 @@
 package com.example.gptreviewtest.user.service;
 
 import com.example.gptreviewtest.email.EmailService;
-import com.example.gptreviewtest.customException.DuplicateException;
+import com.example.gptreviewtest.customexception.DuplicateException;
 import com.example.gptreviewtest.email.dto.UserCredentialsDTO;
 import com.example.gptreviewtest.user.aggregate.HqUserDetailEntity;
 import com.example.gptreviewtest.user.aggregate.UserEntity;
