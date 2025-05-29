@@ -1,5 +1,7 @@
 package com.example.gptreviewtest.user.service;
 
+import com.example.gptreviewtest.email.EmailService;
+import com.example.gptreviewtest.CustomException.DuplicateException;
 import com.example.gptreviewtest.user.aggregate.HqUserDetailEntity;
 import com.example.gptreviewtest.user.aggregate.UserEntity;
 import com.example.gptreviewtest.user.enums.UserType;
@@ -22,14 +24,18 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final HqUserDetailRepository hqUserDetailRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailService emailService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           HqUserDetailRepository hqUserDetailRepository) {
+                           HqUserDetailRepository hqUserDetailRepository,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.hqUserDetailRepository = hqUserDetailRepository;
+        this.emailService = emailService;
+
     }
 
     /**
@@ -55,11 +61,11 @@ public class UserServiceImpl implements UserService{
         return userRepository.findTopByTypeAndCodeStartingWithOrderByCodeDesc(userType, codePrefix)
                 .map(latestUser -> {
                     String latestCode = latestUser.getCode();
-                    String last3Digits = latestCode.substring(latestCode.length() - 3);
-                    int nextNumber = Integer.parseInt(last3Digits) + 1;
-                    return codePrefix + String.format("%03d", nextNumber);
+                    String last4Digits = latestCode.substring(latestCode.length() - 4);
+                    int nextNumber = Integer.parseInt(last4Digits) + 1;
+                    return codePrefix + String.format("%04d", nextNumber);
                 })
-                .orElse(codePrefix + "001");
+                .orElse(codePrefix + "0001");
     }
 
     public String generateRandomPassword() {
@@ -80,6 +86,16 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public CreateUserResponseVO createUser(CreateUserRequestVO createUserRequestVO) {
+        
+        // 전화번호 중복 체크
+        if (userRepository.existsByPhone(createUserRequestVO.getPhone())) {
+            throw new DuplicateException("이미 등록된 전화번호입니다.");
+        }
+        
+        // 이메일 중복 체크
+        if (userRepository.existsByEmail(createUserRequestVO.getEmail())) {
+            throw new DuplicateException("이미 등록된 이메일입니다.");
+        }
 
         // userType 확인 후 userCode 생성
         UserType userTypeEnum = UserType.valueOf(createUserRequestVO.getUserType());
@@ -87,7 +103,6 @@ public class UserServiceImpl implements UserService{
 
         // 비밀번호 랜덤 문자열 생성
         String randomPw = generateRandomPassword();
-        System.out.println("randomPw: " + randomPw);
         
         // 생성된 비밀번호 암호화
         String encryptedPassword = bCryptPasswordEncoder.encode(randomPw);
@@ -115,6 +130,10 @@ public class UserServiceImpl implements UserService{
         }
 
         // TODO: 유저에게 이메일 발송
+        emailService.sendUserCredentials(createUserRequestVO.getEmail(),
+                                            createUserRequestVO.getName(),
+                                            userCode,
+                                            randomPw);
         
         // 정보 반환
         return new CreateUserResponseVO(userCode,

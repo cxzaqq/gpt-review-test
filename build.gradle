@@ -37,6 +37,9 @@ dependencies {
 
 	// 비밀번호 암호화
 	implementation 'org.springframework.security:spring-security-crypto'
+
+	// 메일 발송
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
