@@ -1,9 +1,12 @@
 package com.example.gptreviewtest.email;
 
+import com.example.gptreviewtest.customexception.EmailSendingException;
+import com.example.gptreviewtest.email.dto.UserCredentialsDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,7 +23,10 @@ public class EmailServiceImpl implements EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendUserCredentials(String to, String name, String userCode, String rawPassword) {
+    @Value("${spring.mail.username}")
+    private String userName;
+
+    public void sendUserCredentials(UserCredentialsDTO userCredentialsDTO) {
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -35,17 +41,18 @@ public class EmailServiceImpl implements EmailService {
                 <p style="margin-top: 30px;">로그인 후 비밀번호를 꼭 변경해 주세요.</p>
             </body>
             </html>
-            """.formatted(name, userCode, rawPassword);
+            """.formatted(userCredentialsDTO.getName(),
+                    userCredentialsDTO.getUserCode(),
+                    userCredentialsDTO.getRawPassword());
 
             helper.setText(htmlMsg, true);
-            helper.setTo(to);
+            helper.setTo(userCredentialsDTO.getTo());
             helper.setSubject("[Frans] 계정 정보 안내");
-            helper.setFrom("x1comp.frans@gmail.com");
+            helper.setFrom(userName);
 
             mailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {
-            log.error("이메일 전송 실패: {}", e.getMessage());
-            throw new RuntimeException("이메일 전송 실패", e);
+            throw new EmailSendingException("이메일 전송 실패");
         }
     }
 }
