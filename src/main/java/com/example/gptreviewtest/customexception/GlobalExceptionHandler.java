@@ -1,6 +1,6 @@
 package com.example.gptreviewtest.customexception;
 
-import com.example.gptreviewtest.customException.dto.ErrorResponseDTO;
+import com.example.gptreviewtest.customexception.dto.ErrorResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +35,17 @@ public class GlobalExceptionHandler {
         errorResponse.setTimestamp(LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidUserTypeException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidUserTypeException(InvalidUserTypeException e) {
+        log.error("InvalidUserTypeException", e);
+
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO();
+        errorResponse.setErrorCode("INVALID_USER_TYPE");
+        errorResponse.setMessage(e.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

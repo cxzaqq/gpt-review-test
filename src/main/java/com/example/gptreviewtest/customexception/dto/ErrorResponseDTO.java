@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.customException.dto;
+package com.example.gptreviewtest.customexception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

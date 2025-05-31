@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.user.aggregate;
+package com.example.gptreviewtest.user.command.aggregate;
 
 import com.example.gptreviewtest.user.enums.UserType;
 import jakarta.persistence.*;

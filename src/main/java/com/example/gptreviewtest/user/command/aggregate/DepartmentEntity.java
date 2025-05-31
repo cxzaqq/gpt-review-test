@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.user.aggregate;
+package com.example.gptreviewtest.user.command.aggregate;
 
 import jakarta.persistence.*;
 import lombok.*;

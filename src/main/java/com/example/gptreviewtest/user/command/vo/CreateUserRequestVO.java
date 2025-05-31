@@ -1,4 +1,4 @@
-package com.example.gptreviewtest.user.vo;
+package com.example.gptreviewtest.user.command.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

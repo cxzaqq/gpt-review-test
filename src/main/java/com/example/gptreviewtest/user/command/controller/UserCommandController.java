@@ -1,8 +1,8 @@
-package com.example.gptreviewtest.user.controller;
+package com.example.gptreviewtest.user.command.controller;
 
-import com.example.gptreviewtest.user.service.UserService;
-import com.example.gptreviewtest.user.vo.CreateUserRequestVO;
-import com.example.gptreviewtest.user.vo.CreateUserResponseVO;
+import com.example.gptreviewtest.user.command.service.UserCommandService;
+import com.example.gptreviewtest.user.command.vo.CreateUserRequestVO;
+import com.example.gptreviewtest.user.command.vo.CreateUserResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserCommandController {
 
-    private final UserService userService;
+    private final UserCommandService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserCommandController(UserCommandService userService) {
         this.userService = userService;
     }
 
